@@ -934,7 +934,7 @@ export default function FrontlineInstallerApp() {
                 <div className="bg-slate-50 border rounded-xl p-4 flex items-center justify-between gap-4">
                   <div>
                     <div className="font-semibold">Fast path</div>
-                    <div className="text-sm text-slate-600">Use the pairing device’s current Wi‑Fi (like Apple Home)</div>
+                    <div className="text-sm text-slate-600">Use the pairing device’s current Wi‑Fi </div>
                   </div>
                   <Button className="bg-orange-500 hover:bg-orange-600" onClick={provisionViaMatterUsingCurrentWifi}>
                     Use Current Wi‑Fi via Matter
