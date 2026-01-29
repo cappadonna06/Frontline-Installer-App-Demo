@@ -736,32 +736,58 @@ export default function FrontlineInstallerApp() {
 
         {/* Progress / Navigation */}
         <div className="bg-white rounded-xl p-4 shadow">
-          <div className="flex items-center justify-between gap-4">
-            <Button variant="ghost" onClick={back} disabled={stepIndex === 0} className="px-2">
+          <div className="flex items-center gap-3">
+            <Button variant="ghost" onClick={back} disabled={stepIndex === 0} className="px-2 shrink-0">
               ← Back
             </Button>
-            <div className="flex flex-1 justify-between items-center">
-              {STEPS.map((label, i) => (
-                <button key={label} type="button" onClick={() => setStepIndex(i)} className="flex-1 text-center">
-                  <div
-                    className={`mx-auto w-10 h-10 rounded-full flex items-center justify-center font-bold transition ${
-                      i < stepIndex
-                        ? "bg-green-500 text-white"
-                        : i === stepIndex
-                        ? "bg-orange-500 text-white"
-                        : "bg-slate-200 text-slate-500 hover:bg-slate-300"
-                    }`}
+
+            {/* Mobile: show current step label so we can hide cramped step text */}
+            <div className="sm:hidden flex-1 text-sm font-semibold text-slate-700 truncate">{step}</div>
+
+            {/* Stepper */}
+            <div className="flex-1 overflow-x-auto sm:overflow-visible">
+              {/*
+                On small screens we allow horizontal scroll instead of squishing.
+                min-w makes sure each step has enough room to render cleanly.
+              */}
+              <div className="flex items-center justify-between gap-2 min-w-[560px] sm:min-w-0">
+                {STEPS.map((label, i) => (
+                  <button
+                    key={label}
+                    type="button"
+                    onClick={() => setStepIndex(i)}
+                    className="flex-1 text-center"
+                    aria-current={i === stepIndex ? "step" : undefined}
                   >
-                    {i < stepIndex ? "✓" : i + 1}
-                  </div>
-                  <div
-                    className={`text-xs mt-1 ${i === stepIndex ? "text-orange-500 font-semibold" : "text-slate-500"}`}
-                  >
-                    {label}
-                  </div>
-                </button>
-              ))}
+                    <div
+                      className={`mx-auto w-9 h-9 sm:w-10 sm:h-10 rounded-full flex items-center justify-center font-bold transition text-sm sm:text-base ${
+                        i < stepIndex
+                          ? "bg-green-500 text-white"
+                          : i === stepIndex
+                          ? "bg-orange-500 text-white"
+                          : "bg-slate-200 text-slate-500 hover:bg-slate-300"
+                      }`}
+                    >
+                      {i < stepIndex ? "✓" : i + 1}
+                    </div>
+
+                    {/* Labels: only show on >=sm to avoid cramped text */}
+                    <div
+                      className={`hidden sm:block text-xs mt-1 ${
+                        i === stepIndex ? "text-orange-500 font-semibold" : "text-slate-500"
+                      }`}
+                    >
+                      {label}
+                    </div>
+                  </button>
+                ))}
+              </div>
             </div>
+          </div>
+
+          {/* Mobile hint: swipe to see remaining steps */}
+          <div className="sm:hidden mt-2 text-[11px] text-slate-500">
+            Swipe the step bar to view all steps.
           </div>
         </div>
 
@@ -934,7 +960,7 @@ export default function FrontlineInstallerApp() {
                 <div className="bg-slate-50 border rounded-xl p-4 flex items-center justify-between gap-4">
                   <div>
                     <div className="font-semibold">Fast path</div>
-                    <div className="text-sm text-slate-600">Use the pairing device’s current Wi‑Fi </div>
+                    <div className="text-sm text-slate-600">Use the pairing device’s current Wi‑Fi (like Apple Home)</div>
                   </div>
                   <Button className="bg-orange-500 hover:bg-orange-600" onClick={provisionViaMatterUsingCurrentWifi}>
                     Use Current Wi‑Fi via Matter
